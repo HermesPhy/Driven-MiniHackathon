@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="estilos.css">
 
-    <title> MiniHackathon-Driven </title>
+    <title> MeteoDriven </title>
 </head>
 
 <body>
@@ -26,15 +26,17 @@
         <img class="imagemSatelite" src="Images/satelite.JPG" alt="Satélite meteorológico" />
 
         <div class="searchLocation">
-            <input type="text" placeholder="Informe sua localização">
-            <span class="hidden"></span>
+            <p class="text1">Clique no botão abaixo para buscar informações do clima local.</p>
+            <button onclick="showLocalPosition()">Clima local</button>
+            <p>Ou digite abaixo o nome de uma cidade para consultar o clima por lá.</p>
+            <input type="text">
+            <button onclick="searchCityDatas()">Clima cidade</button>
         </div>
+
+        <section class="hidden"></section>
 
     </main>
 
-
-
-    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJ_sk1kMd1hrBOcOOOCjBjMUybL9ogD2s&callback=initMap"></script> -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./script.js"></script>
 
