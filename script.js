@@ -13,11 +13,6 @@ function searchLocalDatas(position) {
     promise.then(processResponse);
 }
 
-function processResponse(response) {
-    let info = response.data;
-    console.log(info);
-}
-
 function searchCityDatas() {
     nameCity = document.querySelector('.searchLocation input').value
     if (nameCity === "" || nameCity === undefined || nameCity === null) {
@@ -51,4 +46,88 @@ function showError(error) {
             alert("Algum erro desconhecido aconteceu.");
             break;
     }
+}
+
+let cidade = "";
+let descricao = "";
+let icon = "";
+let skyVisibility = "";
+let humidadeRelativa = 0;
+let temperatura = 0;
+let temperaturaMaxima = 0;
+let temperaturaMinima = 0;
+let vento = 0;
+let direcao = 0;
+let section = document.querySelector("section");
+
+function processResponse(response) {
+    let info = response.data;
+    cidade = info.name;
+    descricao = info.weather[0].description;
+    icon = info.weather[0].icon;
+    humidadeRelativa = info.main.humidity;
+    temperatura = (info.main.temp) - 273;
+    temperaturaMaxima = (info.main.temp_max) - 273;
+    temperaturaMinima = (info.main.temp_min) - 273;
+    vento = info.wind.speed;
+    direcao = info.wind.deg;
+
+    validityIcon();
+    showClimateDatas();
+
+}
+
+
+function validityIcon() {
+    if (icon === "04n" || icon === "04d") {
+        skyVisibility = "Nublado";
+    } else if (icon === "03n" || icon === "03d") {
+        skyVisibility = "Parcialmente nublado";
+    } else if (icon === "02n" || icon === "02d") {
+        skyVisibility = "Parcialmente nublado";
+    } else if (icon === "01n" || icon === "01d") {
+        skyVisibility = "Céu claro";
+    }
+
+}
+
+function showClimateDatas() {
+    section.innerHTML += `
+    <div class="nameCity">
+    <p>${cidade}</p>
+</div>
+<div class="climateDatas">
+    <img src="images/${skyVisibility}.JPG" alt="${skyVisibility}" />
+    <div>
+        <div class="temperature">
+            <h2>Temperatura local: ${(temperatura.toFixed(1))}ºC</h2>
+            <div>
+                <p>Max.: ${(temperaturaMaxima.toFixed(1))}ºC</p>
+                <p>Min.: ${(temperaturaMinima.toFixed(1))}ºC</p>
+            </div>
+        </div>
+        <div class="sky">
+            <img class="icone" src="http://openweathermap.org/img/wn/${icon}@2x.png">
+            <h2>${skyVisibility}</h2>
+        </div>
+        <div class="wind">
+            <div class="textWind">
+                <h2>Vento:</h2>
+            </div>
+            <div class="speedWind">
+                <p>Velocidade: ${vento} km/h</p>
+                <p>Direção: ${direcao}º</p>
+            </div>
+        </div>
+    </div>
+</div>
+<button onclick="closedClimateDatas()">Fechar</button>
+`
+    section.classList.remove("hidden");
+
+}
+
+function closedClimateDatas() {
+    section.classList.add("hidden");
+    section.innerHTML = "";
 }
